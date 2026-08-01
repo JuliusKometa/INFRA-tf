@@ -41,7 +41,7 @@
 
 ---
 
-## Optional Technology
+## 2. Optional Technology
 
 | SDLC Stage | Security Practices | Common Tools |
 |------------|--------------------|--------------|
