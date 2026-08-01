@@ -27,10 +27,10 @@
 | Concern | Tool | Why |
 |---|---|---|
 | CI/CD | GitHub Actions | Native to GitHub, OIDC support, no extra infra |
-| Container registry | AWS ECR | Provisioned by Terraform, scan-on-push enabled |
+| Container registry | AWS ECR | Provisioned by Terraform, scan-on-push enabled, |
 | SAST (Java) | CodeQL + Semgrep | CodeQL: deep call-graph analysis; Semgrep: OWASP rules |
-| Dependency scan | OWASP Dependency-Check (Maven) | CVE database via NIST NVD, per-service HTML reports |
-| Image scan | Trivy (Aqua) | Scans OS packages + app deps in the final image, SARIF to GitHub Security tab |
+| Dependency scan | Snyk, OWASP Dependency-Check (Maven) | CVE database via NIST NVD, per-service HTML reports |
+| Image scan | Trivy(Aqua) OpenSCAP | Scans OS packages + app deps in the final image, SARIF to GitHub Security tab |
 | Image signing | Cosign (keyless) | GitHub OIDC → Fulcio CA → Rekor log. No long-lived signing keys |
 | Code quality | SonarCloud | SAST + code smells + coverage gate |
 | Secret scan | Gitleaks | Catches secrets committed to the repo before they leave the runner |
@@ -41,6 +41,28 @@
 
 ---
 
+## Optional Technology
+
+| SDLC Stage | Security Practices | Common Tools |
+|------------|--------------------|--------------|
+| **1. Requirements & Design** | Threat modeling, define security requirements, identify compliance needs, design for least privilege and Zero Trust | OWASP Threat Dragon, Microsoft Threat Modeling Tool |
+| **2. Source Code Development** | Secure coding, code reviews, secrets management, dependency management | GitHub Advanced Security, SonarQube, Gitleaks |
+| **3. Dependency Management (SCA)** | Scan open-source libraries, monitor CVEs, generate SBOMs | Snyk, OWASP Dependency-Check, Syft |
+| **4. Build Stage** | Secure build environment, sign artifacts, verify integrity | Cosign, Tekton |
+| **5. Container Image Creation** | Use minimal images, remove unnecessary packages, run as non-root, avoid embedded secrets | Docker, Buildah, Distroless |
+| **6. Container Image Scanning** | Scan for vulnerabilities, malware, misconfigurations, and license issues | Trivy, Clair, Grype, OpenSCAP, Lynis |
+| **7. Container Registry** | Private registry, signed images, image immutability, access control | Harbor, JFrog Artifactory |
+| **8. CI/CD Pipeline** | Secret protection, security gates, automated testing, artifact verification | Jenkins, GitLab CI/CD, GitHub Actions, Argo CD |
+| **9. Infrastructure as Code (IaC)** | Scan Terraform and Kubernetes manifests for misconfigurations before deployment | Checkov, Terrascan, tfsec |
+| **10. Kubernetes Deployment** | RBAC, Pod Security Standards, Network Policies, admission control, resource limits | Kyverno, Open Policy Agent (OPA), Gatekeeper |
+| **11. Secrets Management** | Store secrets securely, rotate credentials, API keys, and certificates | HashiCorp Vault, External Secrets Operator, Sealed Secrets |
+| **12. Runtime Security** | Detect anomalous behavior, privilege escalation, unexpected processes, and file changes | Falco, Tetragon |
+| **13. Network Security** | Service isolation, mTLS, ingress protection, Web Application Firewall (WAF) | Istio, Cilium, NGINX Ingress Controller |
+| **14. Monitoring & Logging** | Centralized logging, audit logging, metrics, alerting, incident detection | Prometheus, Grafana, Loki, Elastic Stack, OpenTelemetry |
+| **15. Incident Response** | Alerting, forensic analysis, automated response, backup and recovery, post-incident review | TheHive, Velero |
+| **16. Compliance & Governance** | Continuous compliance checks, policy enforcement, auditing | Kubescape, kube-bench, kube-hunter |
+
+---
 ## 3. Design Philosophy
 
 **1. Build Once, Deploy Many**
