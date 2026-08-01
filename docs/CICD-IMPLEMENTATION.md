@@ -43,7 +43,7 @@
 
 ## **2. Optional Technology
 
-| SDLC Stage | Security Practices | Common Tools |
+| -SDLC Stage | -Security Practices | -Common Tools |
 |------------|--------------------|--------------|
 | **1. Requirements & Design** | Threat modeling, define security requirements, identify compliance needs, design for least privilege and Zero Trust | OWASP Threat Dragon, Microsoft Threat Modeling Tool |
 | **2. Source Code Development** | Secure coding, code reviews, secrets management, dependency management | GitHub Advanced Security, SonarQube, Gitleaks |
